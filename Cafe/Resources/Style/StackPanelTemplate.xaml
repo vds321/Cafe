@@ -1,0 +1,52 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                    xmlns:vm="clr-namespace:Cafe.ViewModels.MainViewModels">
+    
+    <ControlTemplate x:Key="StackPanelTemplate" TargetType="{x:Type Control}">
+        <GroupBox Header="Выбор данных для отчета" Width="420" FontSize="18" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Vertical" Margin="-2,0,0,0">
+                <Grid Margin="5,15,5,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Начальная дата" Margin="0,3,10,3" HorizontalAlignment="Left"/>
+                    <xctk:DateTimePicker Grid.Column="1" TimeFormat="Custom" TimeFormatString="dd/MM/yy h:mm tt" AutoCloseCalendar="True"
+                                             Value="{Binding StartDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Watermark="Выбрать дату"/>
+                </Grid>
+                <Grid  Margin="5,15,5,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Конечная дата" Margin="0,3,10,3" HorizontalAlignment="Left"/>
+                    <xctk:DateTimePicker Grid.Column="1" TimeFormat="Custom" TimeFormatString="dd/MM/yy h:mm tt" AutoCloseCalendar="True"
+                                             Value="{Binding StopDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Watermark="Выбрать дату"/>
+                </Grid>
+                <Grid  Margin="5,15,5,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Категории" Margin="0,3,10,3"/>
+                    <xctk:CheckComboBox Grid.Column="1" IsDropDownOpen="False" ItemsSource="{Binding Categories}"
+                                            IsEditable="False" SelectedValue="{Binding SelectedCategory,
+                                            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                            MaxDropDownHeight="120" Delimiter="; "/>
+                </Grid>
+                <Grid  Margin="5,15,5,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Продукты" Margin="3,3,10,3"/>
+                    <xctk:CheckComboBox Grid.Column="1" IsDropDownOpen="False" ItemsSource="{Binding Products}" 
+                                            IsEditable="False" SelectedValue="{Binding SelectedProducts,
+                                            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                            MaxDropDownHeight="150" Delimiter="; "/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+    </ControlTemplate>
+</ResourceDictionary>

@@ -1,0 +1,81 @@
+﻿<Window x:Class="Cafe.Views.DialogView.AddEditDishView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:vm="clr-namespace:Cafe.ViewModels.DialogViewModel"
+        d:DataContext="{d:DesignInstance Type=vm:AddEditDishViewModel}"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="400" Width="400">
+    <Window.Resources>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding GetLoadedDataCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" Header="Параметры блюда" FontSize="14">
+            <StackPanel Orientation="Vertical" Margin="5">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Название"/>
+                    <TextBox Grid.Column="1" Text="{Binding Name}"/>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Категория"/>
+                    <xctk:CheckComboBox Grid.Column="1" IsDropDownOpen="False" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"
+                                        Text="Выберете категорию" IsEditable="False"
+                                        SelectedItem="{Binding CategoryCurrent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Вес, г."/>
+                    <xctk:IntegerUpDown Grid.Column="1" Minimum="0" Increment="1" FormatString="F0" Value="{Binding Weight}" Watermark="Введите вес блюда"/>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Цена"/>
+                    <xctk:DecimalUpDown Grid.Column="1" Minimum="0" Increment="1" Value="{Binding Price}" FormatString="C0" Watermark="Введите цену блюда"/>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Активировать"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding IsActive}" HorizontalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <UniformGrid DockPanel.Dock="Bottom" Columns="2">
+            <Button Style="{StaticResource ButtonStyle}" Content="OK" Margin="100,5,40,5" Padding="7"
+                    Command="{StaticResource DialogResultCommand}" CommandParameter="True"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="Cancel" Margin="40,5,100,5" Padding="7"
+                    Command="{StaticResource DialogResultCommand}" CommandParameter="False"/>
+        </UniformGrid>
+        <GroupBox Header="Состав блюда">
+            <StackPanel>
+                <xctk:CheckComboBox IsDropDownOpen="False" ItemsSource="{Binding Products}" DisplayMemberPath="Name"
+                                    Text="Выберите состав" IsEditable="False" SelectedItemsOverride="{Binding ProductsCurrent,
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                    MaxDropDownHeight="100" Delimiter="; "/>
+            </StackPanel>
+        </GroupBox>
+    </DockPanel>
+</Window>

@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="Cafe.Views.OrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utils="clr-namespace:Cafe.Utils"
+             xmlns:local="clr-namespace:Cafe.Views" xmlns:mainviewmodels="clr-namespace:Cafe.ViewModels.MainViewModels"
+             xmlns:glob="clr-namespace:System.Globalization;assembly=System.Runtime"
+             d:DataContext="{d:DesignInstance Type=mainviewmodels:OrderViewModel}"
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <TextBlock Text="История заказов" HorizontalAlignment="Center" FontSize="18"/>
+            <ListView ItemsSource="{Binding OrdersHistory}" SelectionMode="Single" SelectedIndex="0"
+                      SelectedItem="{Binding SelectedOrder, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
+                      ItemContainerStyle="{StaticResource ListViewItemStyle}" IsSynchronizedWithCurrentItem="True"
+                      utils:GridViewSort.AutoSort="True">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Дата заказа" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="180"
+                                        utils:GridViewSort.PropertyName="OrderDate">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding OrderDate,
+                                            Converter={StaticResource DateTimeConverter}}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Номер заказа" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="130"
+                                        utils:GridViewSort.PropertyName="OrderId">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding OrderId}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Сумма заказа" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="130"
+                                        utils:GridViewSort.PropertyName="OrderSum">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding OrderSum, 
+                                            Converter={StaticResource DecimalToStringConverter}, 
+                                            ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <TextBlock Text="Детали заказа" HorizontalAlignment="Center" FontSize="18"/>
+            <ListView ItemsSource="{Binding OrderDetail}" IsSelected="False" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Категория" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="130">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Dish.Category.Name}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Название" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="265">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Dish.Name}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Количество порций" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Qty}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</UserControl>

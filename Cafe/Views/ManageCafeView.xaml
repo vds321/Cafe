@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="Cafe.Views.ManageCafeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
+             xmlns:utils="clr-namespace:Cafe.Utils"
+             xmlns:local="clr-namespace:Cafe.Views"
+             xmlns:vm="clr-namespace:Cafe.ViewModels.MainViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:ManageCafeViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="0">
+            <TextBlock DockPanel.Dock="Top" Text="Список блюд" FontSize="18" HorizontalAlignment="Center"/>
+            <UniformGrid DockPanel.Dock="Bottom" Columns="3" Width="300">
+                <Button Style="{StaticResource ButtonStyle}" Content="+" Margin="5" Padding="10" FontSize="18" FontWeight="ExtraBold"
+                        Command="{Binding AddDishCommand}" ToolTip="Добавить блюдо"/>
+                <Button Style="{StaticResource ButtonStyle}" Content="E" Margin="5" Width="75" Padding="10" FontSize="18" FontWeight="ExtraBold"
+                        Command="{Binding EditDishCommand}" CommandParameter="{Binding SelectedDish}" ToolTip="Изменить блюдо"/>
+                <Button Style="{StaticResource ButtonStyle}" Content="-" Margin="5" Width="75" Padding="10" FontSize="18" FontWeight="ExtraBold"
+                        Command="{Binding RemoveDishCommand}" CommandParameter="{Binding SelectedDish}" ToolTip="Удалить блюдо"/>
+            </UniformGrid>
+            <ListView ItemsSource="{Binding Dishes}" SelectedItem="{Binding SelectedDish, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      SelectionMode="Single" ItemContainerStyle="{StaticResource ListViewItemStyle}" IsSynchronizedWithCurrentItem="True"
+                      utils:GridViewSort.AutoSort="True">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Название" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="265"
+                                        utils:GridViewSort.PropertyName="Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Name}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Категория" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100"
+                                        utils:GridViewSort.PropertyName="Category.Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Category.Name}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Вес" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100"
+                                        utils:GridViewSort.PropertyName="Weight">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Weight, StringFormat={}{0} г.}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Цена" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100"
+                                        utils:GridViewSort.PropertyName="Price">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Price, 
+                                            Converter={StaticResource DecimalToStringConverter},
+                                            ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        <GroupBox Grid.Column="1" Header="Состав блюд" FontSize="18">
+            <ListView ItemsSource="{Binding SelectedDishProducts}" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Состав блюда" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="250">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Name}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+    </Grid>
+</UserControl>

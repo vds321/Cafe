@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:Cafe.ViewModels.MainViewModels">
+    <ControlTemplate x:Key="ButtonControlTemplate" TargetType="{x:Type Control}">
+        <Border Style="{StaticResource CellBorderStyle}">
+            <UniformGrid Columns="2"  Width="75" Height="40">
+                <Button Style="{StaticResource ButtonStyle}" Command="{Binding DataContext.AddToOrderCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                        Content="+" FontSize="10" FontWeight="ExtraBold" Margin="5" Padding="5"
+                        ToolTip="Добавить в заказ"/>
+                <Button Style="{StaticResource ButtonStyle}" Command="{Binding DataContext.DelFormOrderCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}"
+                        Content="-" FontSize="10" FontWeight="ExtraBold" Margin="5" Padding="5"
+                        ToolTip="Убрать из заказа"/>
+            </UniformGrid>
+        </Border>
+    </ControlTemplate>
+</ResourceDictionary>

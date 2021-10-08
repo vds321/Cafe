@@ -1,0 +1,132 @@
+﻿<UserControl x:Class="Cafe.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:Cafe.ViewModels.MainViewModels"
+             xmlns:util="clr-namespace:Cafe.Service"
+             xmlns:m="clr-namespace:Cafe.Models"
+             xmlns:glob="clr-namespace:System.Globalization;assembly=System.Runtime"
+             xmlns:utils="clr-namespace:Cafe.Utils"
+             d:DataContext="{d:DesignInstance vm:MenuViewModel}"
+             d:DesignHeight="768" d:DesignWidth="1024">
+  
+    <Grid Margin="0,-2,0,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <DockPanel Grid.Column="0">
+            <TextBlock DockPanel.Dock="Top" Text="Меню" HorizontalAlignment="Center" FontSize="18"/>
+            <ListView ItemsSource="{Binding Dishes}" SelectionMode="Single" ItemContainerStyle="{StaticResource ListViewItemStyle}"
+                      SelectedItem="{Binding SelectedDish, UpdateSourceTrigger=PropertyChanged}"
+                      IsSynchronizedWithCurrentItem="True" utils:GridViewSort.AutoSort="True">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Категория"  HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100"
+                                        utils:GridViewSort.PropertyName="Category.Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Category.Name}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Название"  HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="250"
+                                        utils:GridViewSort.PropertyName="Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Name}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Цена" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100"
+                                        utils:GridViewSort.PropertyName="Price">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                        <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Price,
+                                            Converter={StaticResource DecimalToStringConverter},
+                                            ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Заказ" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                   <Control Template="{StaticResource ButtonControlTemplate}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        <DockPanel Grid.Column="1">
+        <TextBlock DockPanel.Dock="Top" Text="Состав заказа" HorizontalAlignment="Center" FontSize="18"/>
+        <UniformGrid DockPanel.Dock="Bottom" Rows="1">
+            <Button Content="Оформить заказ" Style="{StaticResource ButtonStyle}" Command="{Binding CompleteOrderCommand}"/>
+            <Button Content="Очистить заказ" Style="{StaticResource ButtonStyle}" Command="{Binding ClearCurrentOrdersCommand}"/>
+        </UniformGrid>
+        <StackPanel Orientation="Vertical">
+            <ListView ItemsSource="{Binding CurrentOrders}" IsSelected="False" HorizontalContentAlignment="Stretch"
+                      IsTabStop="False" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                <ListView.View>
+                    <GridView>
+                            <GridViewColumn Header="Наименование блюда" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="265">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource CellBorderStyle}">
+                                            <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Name}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Количество" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource CellBorderStyle}">
+                                            <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Qty}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Цена" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource CellBorderStyle}">
+                                            <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Price, 
+                                                Converter={StaticResource DecimalToStringConverter},
+                                                ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Стоимость" HeaderContainerStyle="{StaticResource GridViewColumnHeader}" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CellBorderStyle}">
+                                            <TextBlock Style="{StaticResource TextBlockStyle}" Text="{Binding Total,
+                                                Converter={StaticResource DecimalToStringConverter},
+                                                ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel>
+                <Control Template="{StaticResource TotalPanelStyle}"/>
+            </StackPanel>
+        </StackPanel>
+        </DockPanel>
+    </Grid>
+
+    
+</UserControl>

@@ -1,0 +1,9 @@
+{
+  "Database": {
+    "Type": "MSSQL",
+    "ConnectionStrings": {
+      "MSSQL": "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=CAFE;Integrated Security=True"
+    } 
+  } 
+
+}
