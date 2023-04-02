@@ -28,6 +28,7 @@ namespace Storage
         public T Add(T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
+            var t = _db.Entry(item).State;
             _db.Entry(item).State = EntityState.Added;
             if (AutoSaveChanges) _db.SaveChanges();
             return item;
@@ -58,6 +59,7 @@ namespace Storage
         public void Update(T item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
+            var t = _db.Entry(item).State;
             _db.Entry(item).State = EntityState.Modified;
             if (AutoSaveChanges) _db.SaveChanges();
         }

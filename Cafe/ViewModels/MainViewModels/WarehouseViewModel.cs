@@ -116,7 +116,7 @@ namespace Cafe.ViewModels.MainViewModels
         {
             var new_product = new Product();
             if (!_UserDialog.EditProduct(new_product)) return;
-            if (_Repository.Items.Select(p => p.Name.Equals(new_product.Name)).Count() != 0)
+            if (_Repository.Items.Count(p => p.Name.Equals(new_product.Name)) != 0)
             {
                 _UserDialog.MessageError($"Данное название продукта \"{new_product.Name}\" уже существует.", "Ошибка данных");
                 return;
